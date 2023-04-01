@@ -1,9 +1,7 @@
-//#include <TimerOne.h>
 #include "GyverTM1637.h"
 
 #define CLK 6
 #define DIO 5
-
 
 GyverTM1637 disp(CLK, DIO);
 
@@ -27,7 +25,7 @@ void setup() {
   disp.clear();
   disp.brightness(3);  // яркость, 0 - 7 (минимум - максимум)
   runningText();
-  // declare the ledPin as an OUTPUT:
+  
   attachInterrupt(1, gap, FALLING);  //подключить прерывание на 3 пин при повышении сигнала
   Serial.begin(9600);
   pinMode(butt_gnd, OUTPUT);        //пин как выход
@@ -46,12 +44,9 @@ void setup() {
 
 
 void gap() {
-//  if (millis() - lastturn > 80) {  //защита от случайных измерений
-//    lastturn = millis();           //запомнить время последнего оборота
     DIST = DIST + w_length; //прибавляем длину колеса к дистанции при каждом обороте оного
     count++;
     flag = 1; //вывести на дисплей
-//  }
 }
 
 
@@ -66,21 +61,9 @@ void loop() {
       flag_over = true;
     }
     disp.displayClock(cel, drb);
-    Serial.print("count:");
-    Serial.print(count);
-    Serial.print(",");
-    Serial.print("Dist:");
-    Serial.print(DIST, 4);
-    Serial.print(",");
-    Serial.print("cel:");
-    Serial.print(cel);
-    Serial.print(",");
-    Serial.print("drb:");
-    Serial.println(drb);
     flag = 0;
   }
 
-  // delay(25);
   if (!digitalRead(butt_pin)) {       //если кнопка нажата
     DIST = 0;                         //обнулить расстояние
     count = 0;                        //обнулить счет импульсов
